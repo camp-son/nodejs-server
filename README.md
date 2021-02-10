@@ -25,20 +25,20 @@ npm i express
 - HTTP에서 지원되는 `GET` / `POST` / `PUT` / `DELETE` / `PATCH` 등 다양한 메소드를 지원한다.
 
 ```js
-app.get([PATH], [HANDLER]);
+app.get({ PATH }, { HANDLER });
 
-app.post([PATH], [HANDLER]);
+app.post({ PATH }, { HANDLER });
 
-app.put([PATH], [HANDLER]);
+app.put({ PATH }, { HANDLER });
 
-app.delete([PATH], [HANDLER]);
+app.delete({ PATH }, { HANDLER });
 ```
 
 - `all` 메소드는 메소드와 상관없이 모든 요청에 대해 하나의 경로에서 미들웨어 함수를 로드하는데 사용한다.
 - Handler에서 응답값 설정 또는 next 함수를 호출하지 않으면 요청 상태가 변경되지 않는다.
 
 ```js
-app.all([PATH], [HANDLER]);
+app.all({ PATH }, { HANDLER });
 ```
 
 ### Route path
@@ -104,6 +104,40 @@ app.all([PATH], [HANDLER]);
     res.send("/*fly$/");
   });
   ```
+
+### Route handler
+
+- 각 라우트에는 하나 또는 그 이상의 핸들러를 등록할 수 있고, 배열로도 핸들러를 등록할 수 있다.
+- next를 통해 다음 핸들러로 우회할 수 있고, 제어를 후속 라우트에게 전달할 수 있다.
+
+  ```js
+  // 단일 사용
+  app.get({ PATH }, { HANDLER });
+
+  // 다중 사용
+  app.get({ PATH }, { HANDLER1 }, { HANDLER2 }, { HANDLER3 });
+
+  // 배열 사용
+  app.get({ PATH }, [{ HANDLER1 }, { HANDLER2 }, { HANDLER3 }]);
+  ```
+
+### Response methods
+
+[Support method function ](#support-method-function);
+
+- 요청이 있으면 응답을 전송해주어야 클라이언트가 정지하지 않고 정상적인 응답을 보여줄 수 있다.
+- methods
+  |Method|Description|
+  |--|--|
+  - res.download() 파일이 다운로드되도록 프롬프트합니다.
+  - res.end() 응답 프로세스를 종료합니다.
+  - res.json() JSON 응답을 전송합니다.
+  - res.jsonp() JSONP 지원을 통해 JSON 응답을 전송합니다.
+  - res.redirect() 요청의 경로를 재지정합니다.
+  - res.render() 보기 템플리트를 렌더링합니다.
+  - res.send() 다양한 유형의 응답을 전송합니다.
+  - res.sendFile 파일을 옥텟 스트림의 형태로 전송합니다.
+  - res.sendStatus() 응답 상태 코드를 설정한 후 해당 코드를 문자열로 표현한 내용을 응답 본문으로서 전송합니다.
 
 ## Static resource
 
