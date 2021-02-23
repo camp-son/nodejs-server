@@ -17,6 +17,64 @@ const requestTime = function (req, res, next) {
 app.use(myLogger);
 app.use(requestTime);
 
+app.use(function (error, req, res, next) {
+    console.error(error.stack);
+    res.status(500).send('Something broke !');
+});
+
+// Application middleware =================================
+app.use('/user/:id', function (req, res, next) {
+    console.log('url', req.originalUrl);
+    next();
+}, function (req, res, next) {
+    console.log('type', req.method);
+    next();
+});
+
+app.get('/user/:id', function (req, res, next) {
+    console.log('ID ', req.params.id);
+    next(); // next middleware -> User info is :id
+    // next('route'); // next route -> :id
+}, function (req, res) {
+    res.send(`User info is ${req.params.id}`);
+});
+
+app.get('/user/:id', function (req, res, next) {
+    res.end(req.params.id);
+});
+// Application middleware =================================
+
+// Router middleware =================================
+// const router = express.Router();
+
+// router.use(function (req, res, next) {
+//     console.log('Time', Date.now());
+//     next();
+// });
+
+// router.use('/user/:id', function (req, res, next) {
+//     console.log('url', req.originalUrl);
+//     next();
+// }, function (req, res, next) {
+//     console.log('type', req.method);
+//     next();
+// });
+
+// router.get('/user/:id', function (req, res, next) {
+//     console.log('ID ', req.params.id);
+//     next(); // next middleware -> User info is :id
+//     // next('route'); // next route -> :id
+// }, function (req, res) {
+//     res.send(`User info is ${req.params.id}`);
+// });
+
+// router.get('/user/:id', function (req, res, next) {
+//     res.end(req.params.id);
+// });
+
+// app.use('/', router);
+// Router middleware =================================
+
 app.use('static', express.static(__dirname + 'public'))
 
 // app.get('/', (req, res) => {
