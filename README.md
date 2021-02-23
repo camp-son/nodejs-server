@@ -205,6 +205,15 @@ app.use("static", express.static("public"));
 app.use("static", express.static(__dirname + "public"));
 ```
 
+## Middleware
+
+- 모든 코드를 실행
+- 요청 및 응답에 대한 변경을 실행
+- 요청-응답 주기를 종료
+- 스택 내의 그 다음 미들웨어 호출
+- 미들웨어 로드 된 순서가 중요하기 때문에 로드 순서가 중요
+
+
 ## 참고
 
 [Express](https://expressjs.com)

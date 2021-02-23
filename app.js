@@ -2,6 +2,21 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+const myLogger = function (req, res, next) {
+    if (!req.url.includes('favicon')) {
+        console.log('LOGGED', req.url);
+    }
+    next();
+};
+
+const requestTime = function (req, res, next) {
+    req.requestTime = Date.now();
+    next();
+};
+
+app.use(myLogger);
+app.use(requestTime);
+
 app.use('static', express.static(__dirname + 'public'))
 
 // app.get('/', (req, res) => {
@@ -29,9 +44,11 @@ app.use('static', express.static(__dirname + 'public'))
 //     next();
 // });
 
-// app.get("/", (req, res) => {
-//     res.send("root");
-// });
+app.get("/", (req, res) => {
+    let responseText = 'Hello world!';
+    responseText += `Requested at: ${req.requestTime}`;
+    res.send(responseText);
+});
 
 // app.get("/about", (req, res) => {
 //     res.send("about");
