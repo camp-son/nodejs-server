@@ -228,6 +228,7 @@ app.use("static", express.static(__dirname + "public"));
 - 써드파티 미들웨어
   - express에서 사용 가능한 외부 라이브러리 미들웨어
   - 필요한 기능을 설치하고, 애플리케이션 또는 라우터 레벨 미들웨어에서 로드한다.
+
 ## 참고
 
 [Express](https://expressjs.com)
